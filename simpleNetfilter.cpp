@@ -30,16 +30,16 @@ bool isTarget(const u_char* packet, int pktLen){
     if(ipv4_hdr->ip_p != IPPROTO_TCP){                      //if not TCP, return
         return false;
     }
-	int ipLen = (*((char*)ipv4_hdr)&0x0F)<<2;				//caculate the length of ip header
-	struct libnet_tcp_hdr* tcp_hdr = (libnet_tcp_hdr*)((char*)ipv4_hdr+ipLen);
+    int ipLen = (*((char*)ipv4_hdr)&0x0F)<<2;				//caculate the length of ip header
+    struct libnet_tcp_hdr* tcp_hdr = (libnet_tcp_hdr*)((char*)ipv4_hdr+ipLen);
 
     if(ntohs(tcp_hdr->th_dport)!=80){                        //is it a HTTP request?
         return false;
     }
-	int tcpLen = ((*((char*)tcp_hdr+12))&0xF0)>>2;  		//caculate the length of tcp header
+    int tcpLen = ((*((char*)tcp_hdr+12))&0xF0)>>2;  	    //caculate the length of tcp header
 
-	const char* payload = (char*)tcp_hdr + tcpLen;
-	int payloadLen = totalLen - ipLen - tcpLen;
+    const char* payload = (char*)tcp_hdr + tcpLen;
+    int payloadLen = totalLen - ipLen - tcpLen;
 
     if(payloadLen==0){                                      //TCP SYN/ACK segment
         return false;
