@@ -26,7 +26,7 @@ int main(int argc, char* argv[]){
 		return -1;
 	}
 
-	target = new string(argv[1]);               //target host
+	target = new string(argv[1]);		//target host
 	struct sigaction sigintAction;		//signal handler for program termination
     
 	sigemptyset(&sigintAction.sa_mask);
@@ -34,7 +34,7 @@ int main(int argc, char* argv[]){
 	sigintAction.sa_handler = sigintHandler;
 	sigaction(SIGINT,&sigintAction,0);
     
-	system("./setRules.sh");                     //setting up iptable rules to use NFQUEUE
+	system("./setRules.sh");		 //setting up iptable rules to use NFQUEUE
 
-	filterPackets();
+	filterPackets();			//initiate packet filtering
 }
