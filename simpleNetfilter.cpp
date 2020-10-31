@@ -24,7 +24,7 @@ void dump(unsigned char* buf, int size) {
 }
 
 bool isTarget(const u_char* packet, int pktLen){
-	struct libnet_ipv4_hdr* ipv4_hdr = (libnet_ipv4_hdr*)(packet);
+    struct libnet_ipv4_hdr* ipv4_hdr = (libnet_ipv4_hdr*)(packet);
     uint16_t totalLen = ntohs(*((uint16_t*)ipv4_hdr+1)); 	//caculate the total length of ip packet
 
     if(ipv4_hdr->ip_p != IPPROTO_TCP){                      //if not TCP, return
@@ -116,21 +116,21 @@ static u_int32_t print_pkt (struct nfq_data *tb)
 
 static int cb(struct nfq_q_handle *qh, struct nfgenmsg *nfmsg, struct nfq_data *nfa, void *data){
 
-    u_char* packet;
-    int pktLen;
+	u_char* packet;
+	int pktLen;
 	u_int32_t id = print_pkt(nfa);
 
-    pktLen = nfq_get_payload(nfa, &packet);
+	pktLen = nfq_get_payload(nfa, &packet);
 	if (pktLen >= 0){
 		printf("IP packet_len=%d\n", pktLen);
-        if(isTarget(packet, pktLen)){
-            return nfq_set_verdict(qh, id, NF_DROP, 0, NULL);
-            }
-        else
-	        return nfq_set_verdict(qh, id, NF_ACCEPT, 0, NULL);
-    }
-    else
-        return nfq_set_verdict(qh, id, NF_DROP, 0, NULL);
+        	if(isTarget(packet, pktLen)){
+			return nfq_set_verdict(qh, id, NF_DROP, 0, NULL);
+            	}
+       		else
+			return nfq_set_verdict(qh, id, NF_ACCEPT, 0, NULL);
+	}
+    	else
+        	return nfq_set_verdict(qh, id, NF_DROP, 0, NULL);
 }
 
 void filterPackets(void){
