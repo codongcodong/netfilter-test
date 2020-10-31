@@ -27,7 +27,7 @@ int main(int argc, char* argv[]){
     }
 
     target = new string(argv[1]);               //target host
-    struct sigaction sigintAction;				//signal handler for program termination
+    struct sigaction sigintAction;		//signal handler for program termination
     
     sigemptyset(&sigintAction.sa_mask);
 	sigintAction.sa_flags = 0;
